@@ -19,9 +19,8 @@ app.use("/api/tasks", taskRoutes);
 app.get("/", (req, res) => {
   res.send("TaskFlow Backend Running");
 });
-
-mongoose
-  .connect(process.env.MONGO_URL)
+  mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
 
     console.log("MongoDB Connected");
