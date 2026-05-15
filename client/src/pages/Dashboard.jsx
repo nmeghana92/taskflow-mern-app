@@ -14,8 +14,7 @@ function Dashboard() {
   }
 
   const [tasks, setTasks] = useState([]);
-  const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState("");
+
   const [editingTask, setEditingTask] = useState(null);
 
   const [darkMode, setDarkMode] = useState(
@@ -362,6 +361,244 @@ function Dashboard() {
           </div>
 
         </div>
+
+        {/* ADD TASK */}
+
+        <div
+          className={`p-8 rounded-3xl shadow-2xl mb-10 ${
+            darkMode
+              ? "bg-gray-800 border border-gray-700"
+              : "bg-white border border-gray-200"
+          }`}
+        >
+
+          <h2 className="text-3xl font-bold mb-6">
+            Add New Task
+          </h2>
+
+          <form
+            onSubmit={addTask}
+            className="grid gap-5"
+          >
+
+            <input
+              type="text"
+              name="title"
+              placeholder="Task Title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              className="p-4 rounded-2xl border outline-none text-black"
+            />
+
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              className="p-4 rounded-2xl border outline-none text-black"
+            />
+
+            <div className="grid md:grid-cols-2 gap-5">
+
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+                className="p-4 rounded-2xl border outline-none text-black"
+              />
+
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+                className="p-4 rounded-2xl border outline-none text-black"
+              />
+
+            </div>
+
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition"
+            >
+              Add Task
+            </button>
+
+          </form>
+
+        </div>
+
+        {/* TASKS */}
+
+        <div className="grid md:grid-cols-2 gap-8">
+
+          {tasks.map((task) => (
+
+            <div
+              key={task._id}
+              className={`p-8 rounded-3xl shadow-2xl ${
+                darkMode
+                  ? "bg-gray-800 border border-gray-700"
+                  : "bg-white border border-gray-200"
+              }`}
+            >
+
+              <div className="flex justify-between items-center mb-4">
+
+                <h2 className="text-3xl font-bold">
+                  {task.title}
+                </h2>
+
+                <span
+                  className={`px-4 py-2 rounded-2xl text-white ${
+                    task.status === "completed"
+                      ? "bg-green-500"
+                      : "bg-yellow-500"
+                  }`}
+                >
+                  {task.status}
+                </span>
+
+              </div>
+
+              <p className="text-gray-400 mb-5">
+                {task.description}
+              </p>
+
+              <p className="mb-6">
+                {task.date} | {task.time}
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+
+                <button
+                  onClick={() =>
+                    updateStatus(task._id)
+                  }
+                  className="bg-green-500 text-white px-5 py-2 rounded-2xl"
+                >
+                  Complete
+                </button>
+
+                <button
+                  onClick={() =>
+                    deleteTask(task._id)
+                  }
+                  className="bg-red-500 text-white px-5 py-2 rounded-2xl"
+                >
+                  Delete
+                </button>
+
+                <button
+                  onClick={() =>
+                    setEditingTask(task)
+                  }
+                  className="bg-blue-500 text-white px-5 py-2 rounded-2xl"
+                >
+                  Edit
+                </button>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+        {/* EDIT MODAL */}
+
+        {editingTask && (
+
+          <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 px-4">
+
+            <div className="bg-white p-8 rounded-3xl w-full max-w-lg">
+
+              <h2 className="text-3xl font-bold mb-6 text-black">
+                Edit Task
+              </h2>
+
+              <div className="grid gap-4">
+
+                <input
+                  type="text"
+                  value={editingTask.title}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      title: e.target.value,
+                    })
+                  }
+                  className="p-4 rounded-2xl border text-black"
+                />
+
+                <textarea
+                  value={editingTask.description}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      description: e.target.value,
+                    })
+                  }
+                  className="p-4 rounded-2xl border text-black"
+                />
+
+                <input
+                  type="date"
+                  value={editingTask.date}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      date: e.target.value,
+                    })
+                  }
+                  className="p-4 rounded-2xl border text-black"
+                />
+
+                <input
+                  type="time"
+                  value={editingTask.time}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      time: e.target.value,
+                    })
+                  }
+                  className="p-4 rounded-2xl border text-black"
+                />
+
+                <div className="flex gap-4">
+
+                  <button
+                    onClick={editTask}
+                    className="bg-green-500 text-white px-5 py-3 rounded-2xl w-full"
+                  >
+                    Save
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      setEditingTask(null)
+                    }
+                    className="bg-red-500 text-white px-5 py-3 rounded-2xl w-full"
+                  >
+                    Cancel
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        )}
 
       </div>
 
