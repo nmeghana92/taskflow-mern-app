@@ -29,13 +29,7 @@ function Dashboard() {
     time: "",
   });
 
-  useEffect(() => {
-
-    Notification.requestPermission();
-
-    fetchTasks();
-
-  }, [fetchTasks]);
+  // FETCH TASKS
 
   const fetchTasks = useCallback(async () => {
 
@@ -104,6 +98,18 @@ function Dashboard() {
 
   }, [token]);
 
+  // USE EFFECT
+
+  useEffect(() => {
+
+    Notification.requestPermission();
+
+    fetchTasks();
+
+  }, [fetchTasks]);
+
+  // HANDLE CHANGE
+
   const handleChange = (e) => {
 
     setFormData({
@@ -112,6 +118,8 @@ function Dashboard() {
     });
 
   };
+
+  // ADD TASK
 
   const addTask = async (e) => {
 
@@ -150,6 +158,8 @@ function Dashboard() {
 
   };
 
+  // UPDATE STATUS
+
   const updateStatus = async (id) => {
 
     try {
@@ -180,6 +190,8 @@ function Dashboard() {
 
   };
 
+  // DELETE TASK
+
   const deleteTask = async (id) => {
 
     try {
@@ -206,6 +218,8 @@ function Dashboard() {
     }
 
   };
+
+  // EDIT TASK
 
   const editTask = async () => {
 
@@ -242,6 +256,8 @@ function Dashboard() {
 
   };
 
+  // LOGOUT
+
   const logout = () => {
 
     localStorage.clear();
@@ -249,6 +265,8 @@ function Dashboard() {
     window.location.href = "/";
 
   };
+
+  // DARK MODE
 
   const toggleDarkMode = () => {
 
@@ -340,338 +358,6 @@ function Dashboard() {
             >
               Logout
             </button>
-
-          </div>
-
-        </div>
-
-        {/* MAIN GRID */}
-
-        <div className="grid lg:grid-cols-3 gap-8">
-
-          {/* LEFT SIDE */}
-
-          <div className="lg:col-span-1">
-
-            <form
-              onSubmit={addTask}
-              className={`sticky top-6 p-8 rounded-3xl shadow-2xl ${
-                darkMode
-                  ? "bg-gray-800 border border-gray-700"
-                  : "bg-white border border-gray-200"
-              }`}
-            >
-
-              <h2 className="text-3xl font-bold mb-8">
-                Add New Task
-              </h2>
-
-              <input
-                type="text"
-                name="title"
-                placeholder="Task Title"
-                value={formData.title}
-                onChange={handleChange}
-                className={`w-full p-4 rounded-2xl mb-5 outline-none border ${
-                  darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300"
-                }`}
-              />
-
-              <input
-                type="text"
-                name="description"
-                placeholder="Description"
-                value={formData.description}
-                onChange={handleChange}
-                className={`w-full p-4 rounded-2xl mb-5 outline-none border ${
-                  darkMode
-                    ? "bg-gray-700 border-gray-600 text-white"
-                    : "bg-white border-gray-300"
-                }`}
-              />
-
-              <div className="flex gap-4 mb-6">
-
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  className={`w-1/2 p-4 rounded-2xl outline-none border ${
-                    darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300"
-                  }`}
-                />
-
-                <input
-                  type="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  className={`w-1/2 p-4 rounded-2xl outline-none border ${
-                    darkMode
-                      ? "bg-gray-700 border-gray-600 text-white"
-                      : "bg-white border-gray-300"
-                  }`}
-                />
-
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl transition font-semibold"
-              >
-                Add Task
-              </button>
-
-            </form>
-
-          </div>
-
-          {/* RIGHT SIDE */}
-
-          <div className="lg:col-span-2">
-
-            <input
-              type="text"
-              placeholder="Search Tasks..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className={`w-full p-4 rounded-2xl mb-8 outline-none border ${
-                darkMode
-                  ? "bg-gray-800 border-gray-700 text-white"
-                  : "bg-white border-gray-300"
-              }`}
-            />
-
-            <div className="flex flex-wrap gap-4 mb-8">
-
-              <button
-                onClick={() => setFilter("all")}
-                className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded-2xl"
-              >
-                All
-              </button>
-
-              <button
-                onClick={() => setFilter("pending")}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-2xl"
-              >
-                Pending
-              </button>
-
-              <button
-                onClick={() => setFilter("completed")}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-2xl"
-              >
-                Completed
-              </button>
-
-            </div>
-
-            {/* EDIT TASK */}
-
-            {
-              editingTask && (
-
-                <div
-                  className={`p-8 rounded-3xl shadow-2xl mb-8 ${
-                    darkMode
-                      ? "bg-gray-800 border border-gray-700"
-                      : "bg-white border border-gray-200"
-                  }`}
-                >
-
-                  <h2 className="text-3xl font-bold mb-6">
-                    Edit Task
-                  </h2>
-
-                  <input
-                    type="text"
-                    value={editingTask.title}
-                    onChange={(e) =>
-                      setEditingTask({
-                        ...editingTask,
-                        title: e.target.value,
-                      })
-                    }
-                    className={`w-full p-4 rounded-2xl mb-4 outline-none border ${
-                      darkMode
-                        ? "bg-gray-700 border-gray-600 text-white"
-                        : "bg-white border-gray-300"
-                    }`}
-                  />
-
-                  <input
-                    type="text"
-                    value={editingTask.description}
-                    onChange={(e) =>
-                      setEditingTask({
-                        ...editingTask,
-                        description: e.target.value,
-                      })
-                    }
-                    className={`w-full p-4 rounded-2xl mb-4 outline-none border ${
-                      darkMode
-                        ? "bg-gray-700 border-gray-600 text-white"
-                        : "bg-white border-gray-300"
-                    }`}
-                  />
-
-                  <div className="flex gap-4 mb-6">
-
-                    <input
-                      type="date"
-                      value={editingTask.date}
-                      onChange={(e) =>
-                        setEditingTask({
-                          ...editingTask,
-                          date: e.target.value,
-                        })
-                      }
-                      className={`w-1/2 p-4 rounded-2xl outline-none border ${
-                        darkMode
-                          ? "bg-gray-700 border-gray-600 text-white"
-                          : "bg-white border-gray-300"
-                      }`}
-                    />
-
-                    <input
-                      type="time"
-                      value={editingTask.time}
-                      onChange={(e) =>
-                        setEditingTask({
-                          ...editingTask,
-                          time: e.target.value,
-                        })
-                      }
-                      className={`w-1/2 p-4 rounded-2xl outline-none border ${
-                        darkMode
-                          ? "bg-gray-700 border-gray-600 text-white"
-                          : "bg-white border-gray-300"
-                      }`}
-                    />
-
-                  </div>
-
-                  <div className="flex gap-4">
-
-                    <button
-                      onClick={editTask}
-                      className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-2xl transition"
-                    >
-                      Save Changes
-                    </button>
-
-                    <button
-                      onClick={() => setEditingTask(null)}
-                      className="bg-gray-500 hover:bg-gray-600 text-white px-8 py-4 rounded-2xl transition"
-                    >
-                      Cancel
-                    </button>
-
-                  </div>
-
-                </div>
-
-              )
-            }
-
-            {/* TASKS */}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-              {
-                tasks
-                  .filter((task) => {
-
-                    const matchesFilter =
-                      filter === "all" ||
-                      task.status === filter;
-
-                    const matchesSearch =
-                      task.title
-                        .toLowerCase()
-                        .includes(search.toLowerCase());
-
-                    return matchesFilter && matchesSearch;
-
-                  })
-                  .map((task) => (
-
-                    <div
-                      key={task._id}
-                      className={`p-6 rounded-3xl shadow-2xl transition hover:scale-[1.02] ${
-                        darkMode
-                          ? "bg-gray-800 border border-gray-700"
-                          : "bg-white border border-gray-200"
-                      }`}
-                    >
-
-                      <div className="flex justify-between items-center">
-
-                        <h2 className="text-2xl font-bold">
-                          {task.title}
-                        </h2>
-
-                        <span
-                          className={`px-4 py-2 rounded-2xl text-white text-sm ${
-                            task.status === "completed"
-                              ? "bg-emerald-500"
-                              : "bg-yellow-500"
-                          }`}
-                        >
-                          {task.status}
-                        </span>
-
-                      </div>
-
-                      <p className="text-gray-400 mt-4">
-                        {task.description}
-                      </p>
-
-                      <div className="flex gap-4 mt-5 text-sm text-gray-400">
-
-                        <p>{task.date}</p>
-
-                        <p>{task.time}</p>
-
-                      </div>
-
-                      <div className="flex flex-wrap gap-3 mt-6">
-
-                        <button
-                          onClick={() => updateStatus(task._id)}
-                          className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-2xl"
-                        >
-                          Complete
-                        </button>
-
-                        <button
-                          onClick={() => deleteTask(task._id)}
-                          className="bg-rose-500 hover:bg-rose-600 text-white px-5 py-2 rounded-2xl"
-                        >
-                          Delete
-                        </button>
-
-                        <button
-                          onClick={() => setEditingTask(task)}
-                          className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded-2xl"
-                        >
-                          Edit
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  ))
-              }
-
-            </div>
 
           </div>
 
