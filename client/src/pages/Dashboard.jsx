@@ -42,7 +42,7 @@ function Dashboard() {
     try {
 
       const response = await axios.get(
-        "http://localhost:5000/api/tasks/mytasks",
+        "https://taskflow-backend-ilde.onrender.com/api/tasks/mytasks",
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ function Dashboard() {
     try {
 
       await axios.post(
-        "http://localhost:5000/api/tasks/add",
+        "https://taskflow-backend-ilde.onrender.com/api/tasks/add",
         formData,
         {
           headers: {
@@ -155,7 +155,7 @@ function Dashboard() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/tasks/update/${id}`,
+        `https://taskflow-backend-ilde.onrender.com/api/tasks/update/${id}`,
         {
           status: "completed",
         },
@@ -185,7 +185,7 @@ function Dashboard() {
     try {
 
       await axios.delete(
-        `http://localhost:5000/api/tasks/delete/${id}`,
+        `https://taskflow-backend-ilde.onrender.com/api/tasks/delete/${id}`,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -212,7 +212,7 @@ function Dashboard() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/tasks/edit/${editingTask._id}`,
+        `https://taskflow-backend-ilde.onrender.com/api/tasks/edit/${editingTask._id}`,
         {
           title: editingTask.title,
           description: editingTask.description,

@@ -45,7 +45,7 @@ function MyAccount() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/tasks/mytasks",
+        "https://taskflow-backend-ilde.onrender.com/api/tasks/mytasks",
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@ function MyAccount() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:5000/api/users/update-profile",
+        "https://taskflow-backend-ilde.onrender.com/api/users/update-profile",
         editData,
         {
           headers: {

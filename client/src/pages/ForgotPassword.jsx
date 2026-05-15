@@ -28,7 +28,7 @@ function ForgotPassword() {
     try {
 
       await axios.put(
-        "http://localhost:5000/api/users/forgot-password",
+        "https://taskflow-backend-ilde.onrender.com/api/users/forgot-password",
         formData
       );
 
