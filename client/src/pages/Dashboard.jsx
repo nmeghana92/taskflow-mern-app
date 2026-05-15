@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -35,9 +35,9 @@ function Dashboard() {
 
     fetchTasks();
 
-  }, []);
+  }, [fetchTasks]);
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
 
     try {
 
@@ -102,7 +102,7 @@ function Dashboard() {
 
     }
 
-  };
+  }, [token]);
 
   const handleChange = (e) => {
 

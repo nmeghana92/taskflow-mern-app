@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
@@ -7,6 +7,8 @@ function MyTasks() {
 
   const [tasks, setTasks] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
+
+  const token = localStorage.getItem("token");
 
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
@@ -25,13 +27,7 @@ function MyTasks() {
 
   };
 
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
 
     try {
 
@@ -52,15 +48,21 @@ function MyTasks() {
 
     }
 
-  };
+  }, [token]);
+
+  useEffect(() => {
+
+    fetchTasks();
+
+  }, [fetchTasks]);
 
   const uniqueDates = [
     ...new Set(tasks.map((task) => task.date))
   ];
 
-  const filteredTasks = tasks.filter(
-    (task) => task.date === selectedDate
-  );
+  const filteredTasks = selectedDate
+    ? tasks.filter((task) => task.date === selectedDate)
+    : tasks;
 
   return (
 
@@ -100,9 +102,9 @@ function MyTasks() {
                   key={date}
                   onClick={() =>
                     setSelectedDate(
-                        selectedDate === date ? "" : date
+                      selectedDate === date ? "" : date
                     )
-                }
+                  }
                   className={`px-8 py-4 rounded-2xl shadow-xl transition ${
                     darkMode
                       ? "bg-gray-800 hover:bg-gray-700"
