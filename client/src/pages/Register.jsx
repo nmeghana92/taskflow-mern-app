@@ -26,7 +26,7 @@ function Register() {
 
     try {
 
-      const response = await axios.post(
+      await axios.post(
         "https://taskflow-backend-ilde.onrender.com/api/users/register",
         formData
       );
