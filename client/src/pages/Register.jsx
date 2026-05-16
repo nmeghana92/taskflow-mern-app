@@ -2,8 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function Register() {
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,7 +31,10 @@ function Register() {
         formData
       );
 
-      toast.success(response.data.message);
+      toast.success("Registration Successful");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
 
     } catch (error) {
 
@@ -94,7 +98,7 @@ function Register() {
 
         <p className="text-center mt-6 text-gray-600">
           Already have an account?
-          <Link to="/" className="text-purple-600 font-semibold ml-1">
+          <Link to="/login" className="text-purple-600 font-semibold ml-1">
             Login
           </Link>
         </p>

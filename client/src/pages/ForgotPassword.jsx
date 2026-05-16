@@ -34,7 +34,7 @@ function ForgotPassword() {
 
       toast.success("Password Updated");
 
-      navigate("/");
+      navigate("/login");
 
     } catch (error) {
 

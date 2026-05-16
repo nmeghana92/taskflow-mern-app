@@ -7,7 +7,10 @@ import About from "./pages/About";
 import MyTasks from "./pages/MyTasks";
 import MyAccount from "./pages/MyAccount";
 import ForgotPassword from "./pages/ForgotPassword";
+import Home from "./pages/Home";
+
 import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -20,6 +23,11 @@ function App() {
 
         <Route
           path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/login"
           element={<Login />}
         />
 
@@ -47,7 +55,11 @@ function App() {
           path="/account"
           element={<MyAccount />}
         />
-        <Route path="/forgot" element={<ForgotPassword />} />
+
+        <Route
+          path="/forgot"
+          element={<ForgotPassword />}
+        />
 
       </Routes>
 
