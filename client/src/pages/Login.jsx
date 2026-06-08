@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+
 function Login() {
 
   const navigate = useNavigate();
@@ -11,7 +11,11 @@ function Login() {
     email: "",
     password: "",
   });
+
+  // AUTO LOGIN IF TOKEN EXISTS
+
   useEffect(() => {
+
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -19,6 +23,8 @@ function Login() {
     }
 
   }, [navigate]);
+
+  // HANDLE INPUT CHANGE
 
   const handleChange = (e) => {
 
@@ -29,41 +35,72 @@ function Login() {
 
   };
 
+  // LOGIN FUNCTION
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
 
+      // CLEAR OLD TOKEN
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      // LOGIN API
+
       const response = await axios.post(
         "https://taskflow-backend-ilde.onrender.com/api/users/login",
         formData
       );
 
-      localStorage.setItem("token", response.data.token);
+      // SAVE TOKEN
+
       localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
+        "token",
+        response.data.token
       );
+
+      // SAVE USER
+
       localStorage.setItem(
         "user",
         JSON.stringify(response.data.user)
       );
 
-      navigate("/dashboard");
+      toast.success("Login Successful");
+
+      // REDIRECT
+
+      setTimeout(() => {
+
+        navigate("/dashboard");
+
+      }, 1000);
 
     } catch (error) {
 
+      console.log(error);
+
       if (error.response) {
-        toast.error(error.response.data.message);
+
+        toast.error(
+          error.response.data.message ||
+          "Invalid Credentials"
+        );
+
       } else {
+
         toast.error("Server Error");
+
       }
 
     }
 
   };
-    return (
+
+  return (
 
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-6">
 
@@ -79,21 +116,31 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
 
+          {/* EMAIL */}
+
           <input
             type="email"
             name="email"
             placeholder="Enter Email"
+            value={formData.email}
             onChange={handleChange}
+            required
             className="w-full border border-gray-300 p-4 rounded-xl mb-4 outline-none focus:border-blue-500"
           />
+
+          {/* PASSWORD */}
 
           <input
             type="password"
             name="password"
             placeholder="Enter Password"
+            value={formData.password}
             onChange={handleChange}
+            required
             className="w-full border border-gray-300 p-4 rounded-xl mb-6 outline-none focus:border-blue-500"
           />
+
+          {/* LOGIN BUTTON */}
 
           <button
             type="submit"
@@ -101,24 +148,37 @@ function Login() {
           >
             Login
           </button>
-                    <p
+
+          {/* FORGOT PASSWORD */}
+
+          <p
             onClick={() => navigate("/forgot")}
-            className="text-blue-500 cursor-pointer mt-4 text-center"
+            className="text-blue-500 cursor-pointer mt-4 text-center hover:underline"
           >
             Forgot Password?
           </p>
+
         </form>
 
+        {/* REGISTER LINK */}
+
         <p className="text-center mt-6 text-gray-600">
+
           Don't have an account?
-          <Link to="/register" className="text-blue-600 font-semibold ml-1">
+
+          <Link
+            to="/register"
+            className="text-blue-600 font-semibold ml-1"
+          >
             Register
           </Link>
+
         </p>
 
       </div>
 
     </div>
+
   );
 }
 
